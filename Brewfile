@@ -9,19 +9,20 @@ tap homebrew/cask-fonts
 cask font-migmix-2m
 
 tap homebrew/cask
-
-cask android-studio
+cask alfred
 cask boostnote
-cask dropbox
 cask google-chrome
-cask station
 cask visual-studio-code
-
 
 tap caskroom/versions
 
 tap rcmdnk/file
 brew brew-file
+
+# Other Cask applications
+cask android-studio
+cask dropbox
+cask station
 
 # App Store applications
 appstore 682658836 GarageBand (10.3.2)
