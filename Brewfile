@@ -12,6 +12,7 @@ tap homebrew/cask
 cask alfred
 cask boostnote
 cask google-chrome
+cask karabiner-elements
 cask visual-studio-code
 
 tap caskroom/versions
@@ -22,6 +23,7 @@ brew brew-file
 # Other Cask applications
 cask android-studio
 cask dropbox
+cask java
 cask station
 
 # App Store applications
