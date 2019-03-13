@@ -13,7 +13,7 @@ cask alfred
 cask boostnote
 cask google-chrome
 cask karabiner-elements
-cask visual-studio-code
+cask station
 
 tap caskroom/versions
 
@@ -24,7 +24,8 @@ brew brew-file
 cask android-studio
 cask dropbox
 cask java
-cask station
+cask ngrok
+cask visual-studio-code
 
 # App Store applications
 appstore 682658836 GarageBand (10.3.2)
