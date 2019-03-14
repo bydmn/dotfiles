@@ -2,7 +2,9 @@
 # tap repositories and their packages
 
 tap homebrew/core
+brew jq
 brew mas
+brew oniguruma
 brew unar
 
 tap homebrew/cask-fonts
@@ -11,9 +13,10 @@ cask font-migmix-2m
 tap homebrew/cask
 cask alfred
 cask boostnote
-cask google-chrome
-cask karabiner-elements
-cask station
+cask dropbox
+cask java
+cask ngrok
+cask visual-studio-code
 
 tap caskroom/versions
 
@@ -22,10 +25,10 @@ brew brew-file
 
 # Other Cask applications
 cask android-studio
-cask dropbox
-cask java
-cask ngrok
-cask visual-studio-code
+cask brave-browser
+cask google-chrome
+cask karabiner-elements
+cask station
 
 # App Store applications
 appstore 682658836 GarageBand (10.3.2)
