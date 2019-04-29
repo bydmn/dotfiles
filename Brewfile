@@ -25,10 +25,8 @@ brew brew-file
 
 # Other Cask applications
 cask android-studio
-cask brave-browser
 cask google-chrome
 cask karabiner-elements
-cask station
 
 # App Store applications
 appstore 682658836 GarageBand (10.3.2)
