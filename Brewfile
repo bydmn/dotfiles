@@ -8,6 +8,7 @@ brew unar
 
 tap homebrew/cask-fonts
 cask font-migmix-2m
+cask font-fira-code
 
 tap homebrew/cask
 cask alfred
