@@ -1,4 +1,3 @@
-
 # tap repositories and their packages
 
 tap homebrew/core
@@ -12,14 +11,9 @@ cask font-migmix-2m
 
 tap homebrew/cask
 cask alfred
-cask boostnote
-cask dropbox
-cask java
 cask ngrok
 cask visual-studio-code
-
-tap caskroom/versions
-
+tap homebrew/cask-versions
 tap rcmdnk/file
 brew brew-file
 
