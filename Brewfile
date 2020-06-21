@@ -6,6 +6,7 @@ brew mas
 brew oniguruma
 brew unar
 brew pidcat
+brew gibo
 
 tap homebrew/cask-fonts
 cask font-migmix-2m
