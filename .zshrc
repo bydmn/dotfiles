@@ -1,6 +1,6 @@
 export TERM='xterm-256color'
 export LANG=ja_JP.UTF-8
-export PS1="[\e[1;36;1m\u\e[m@\e[1;31;1m\h\e[m \w]\n\$ "
+#export PS1="[\e[1;36;1m\u\e[m@\e[1;31;1m\h\e[m \w]\n\$ "
 export HOMEBREW_BREWFILE=$HOME/dotfiles/Brewfile
 
 alias ll='ls -lao'
