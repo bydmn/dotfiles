@@ -2,6 +2,9 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'wsdjeg/dein-ui.vim'
+
+[[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
@@ -13,61 +16,17 @@ build = 'make'
 #
 #==================================================================================
 [[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-rev = 'next'
-build = 'bash install.sh'
+repo = 'neovim/nvim-lsp'
 hook_add = '''
-set hidden
+lua require'nvim_lsp'.tsserver.setup{}
 
-let g:LanguageClient_rootMarkers = {
-  \ 'haskell': ['*.cabal', 'stack.yaml'],
-  \ }
-
-let g:LanguageClient_autoStart = 0
-nnoremap <Space>l :LanguageClientStart<CR>
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'typescript.jsx': ['javascript-typescript-stdio'],
-    \ 'css': ['css-languageserver', '--stdio'],
-    \ 'scss': ['css-languageserver', '--stdio'],
-    \ 'sass': ['css-languageserver', '--stdio'],
-    \ 'haskell': ['hie-wrapper']
-    \ }
-
-" LanguageClientの機能のショートカットを登録
-function LC_maps()
-  if has_key(g:LanguageClient_serverCommands, &filetype)
-    nnoremap <silent> <F5> :call LanguageClient_contextMenu()<CR>
-    nnoremap <silent> <F5> :call LanguageClient_contextMenu()<CR>
-    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-  endif
-endfunction
-
-augroup LanguageClientKeyconfig
-  autocmd!
-  autocmd Filetype * call LC_maps()
-augroup END
-
-" install depends node module
-if executable('npm')
-
-  if !executable('javascript-typescript-stdio')
-    call system('npm i -g javascript-typescript-langserver')
-  endif
-
-  if !executable('css-languageserver')
-    call system('npm i -g vscode-css-languageserver-bin')
-  endif
-
-endif
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 '''
-
 
 
 #==================================================================================
@@ -75,69 +34,106 @@ endif
 #  autocomplete
 #
 #==================================================================================
-[[plugins]] # deoplete
-repo = 'Shougo/deoplete.nvim'
-on_event = 'InsertEnter'
-hook_add = '''
-  " Use deoplete.
-  let g:deoplete#enable_at_startup = 1
-  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-          \ neosnippet#expandable_or_jumpable() ?
-          \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
-'''
-on_i = 1
+# [[plugins]] # deoplete
+# repo = 'Shougo/deoplete.nvim'
+# on_event = 'InsertEnter'
+# hook_add = '''
+#   " Use deoplete.
+#   let g:deoplete#enable_at_startup = 1
+#   inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+#           \ neosnippet#expandable_or_jumpable() ?
+#           \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+# '''
+# on_i = 1
+# 
+# [[plugins]]
+# repo = 'roxma/nvim-yarp'
+# 
+# [[plugins]]
+# repo = 'roxma/vim-hug-neovim-rpc'
+# 
+# [[plugins]]
+# repo = 'sebastianmarkow/deoplete-rust'
+# on_ft = 'rust'
+# depends = ['deoplete.nvim']
+# hook_source = '''
+#     let g:deoplete#sources#rust#racer_binary="$HOME/.cargo/bin/racer"
+#     let g:deoplete#sources#rust#rust_source_path="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+#     let g:deoplete#sources#rust#show_duplicates=1
+#     let g:deoplete#sources#rust#disable_keymap=1
+#     nmap <buffer> gd <plug>DeopleteRustGoToDefinitionDefault
+#     nmap <buffer> K  <plug>DeopleteRustShowDocumentation
+# '''
+# 
+# [[plugins]]
+# repo = 'Shougo/neosnippet'
+# on_event = 'InsertCharPre'
+# on_ft = 'snippet'
+# on_i = 1
+# hook_add = '''
+#   let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/snippets/'
+# 
+#   " Plugin key-mappings.
+#   imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+#   smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+#   xmap <C-k>     <Plug>(neosnippet_expand_target)
+#    
+#   " SuperTab like snippets behavior.
+#   imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+#   \ "\<Plug>(neosnippet_expand_or_jump)"
+#   \: pumvisible() ? "\<C-n>" : "\<TAB>"
+#   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+#   \ "\<Plug>(neosnippet_expand_or_jump)"
+#   \: "\<TAB>"
+#    
+#   " For snippet_complete marker.
+#   if has('conceal')
+#     set conceallevel=2 concealcursor=i
+#   endif
+# '''
+# 
+# [[plugins]]
+# repo = 'Shougo/neosnippet-snippets'
 
-[[plugins]]
-repo = 'roxma/nvim-yarp'
 
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
 
-[[plugins]]
-repo = 'sebastianmarkow/deoplete-rust'
-on_ft = 'rust'
-depends = ['deoplete.nvim']
-hook_source = '''
-    let g:deoplete#sources#rust#racer_binary="$HOME/.cargo/bin/racer"
-    let g:deoplete#sources#rust#rust_source_path="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-    let g:deoplete#sources#rust#show_duplicates=1
-    let g:deoplete#sources#rust#disable_keymap=1
-    nmap <buffer> gd <plug>DeopleteRustGoToDefinitionDefault
-    nmap <buffer> K  <plug>DeopleteRustShowDocumentation
-'''
-
-[[plugins]]
-repo = 'Shougo/neosnippet'
-on_event = 'InsertCharPre'
-on_ft = 'snippet'
-on_i = 1
-hook_add = '''
-  let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/snippets/'
-
-  " Plugin key-mappings.
-  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k>     <Plug>(neosnippet_expand_target)
-   
-  " SuperTab like snippets behavior.
-  imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)"
-  \: pumvisible() ? "\<C-n>" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)"
-  \: "\<TAB>"
-   
-  " For snippet_complete marker.
-  if has('conceal')
-    set conceallevel=2 concealcursor=i
-  endif
-'''
-
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
-
+#==================================================================================
+#
+#  denite.vim
+#
+#==================================================================================
 [[plugins]]
 repo = 'Shougo/denite.nvim'
+hook_add = '''
+  autocmd FileType denite call s:denite_my_settings()
+  function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d
+    \ denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p
+    \ denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q
+    \ denite#do_map('quit')
+    nnoremap <silent><buffer><expr> i
+    \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space>
+    \ denite#do_map('toggle_select').'j'
+  endfunction
+
+  let s:ignore_globs = ['.git', '.svn', 'node_modules']
+
+  call denite#custom#var('file/rec', 'command', [
+        \ 'ag',
+        \ '--follow',
+        \ ] + map(deepcopy(s:ignore_globs), { k, v -> '--ignore=' . v }) + [
+        \ '--nocolor',
+        \ '--nogroup',
+        \ '-g',
+        \ ''
+        \ ])
+  call denite#custom#filter('matcher/ignore_globs', 'ignore_globs', s:ignore_globs)
+'''
 
 
 
@@ -229,36 +225,13 @@ repo = 'tmhedberg/matchit'
 [[plugins]] # コードの{}カッコなどの開閉
 repo = 'AndrewRadev/splitjoin.vim'
 
-[[plugins]] # コメントアウトの切り替え
-repo = 'tomtom/tcomment_vim'
-
 [[plugins]] #バッファの変更の自動更新
 repo = 'djoshea/vim-autoread'
 
-[[plugins]] # nerdtree
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-  "  隠しファイルは常に表示
-  let NERDTreeShowHidden = 1
-  nnoremap <Space>n  :NERDTreeToggle<CR>
-'''
-
-[[plugins]] # emmet-vim
-repo = 'mattn/emmet-vim'
-hook_add = '''
-  let g:user_emmet_leader_key='<c-e>'
-  let g:user_emmet_settings = {
-  \    'variables': {
-  \      'lang': "ja"
-  \    },
-  \   'indentation': '  '
-  \ }
-'''
-
-[[plugins]] # vim-fugitive
+[[plugins]]
 repo = 'tpope/vim-fugitive'
 
-[[plugins]] # vim-surround
+[[plugins]]
 repo = 'tpope/vim-surround'
 
 
@@ -276,26 +249,6 @@ on_ft = 'toml'
 [[plugins]] # yaml syntax
 repo = 'chase/vim-ansible-yaml'
 on_ft = 'yaml'
-
-[[plugins]] # javascript syntax
-repo = 'pangloss/vim-javascript'
-
-[[plugins]] #es2015のハイライト
-repo = 'othree/yajs.vim'
-
-[[plugins]] #esnext syntax
-repo = 'othree/es.next.syntax.vim'
-
-[[plugins]] #jsx syntax
-repo = 'maxmellon/vim-jsx-pretty'
-
-[[plugins]] #typescript syntax
-repo = 'leafgarland/typescript-vim'
-on_ft = 'typescript'
-
-[[plugins]] #typescript jsx syntax
-repo = 'peitalin/vim-jsx-typescript'
-on_ft = ['typescript', 'typescript.jsx']
 
 [[plugins]]
 repo = 'rust-lang/rust.vim'
@@ -320,7 +273,7 @@ repo = 'AlessandroYorba/Sierra'
 hook_add = '''
   let g:sierra_Pitch = 1
   au MyAutoCmd VimEnter * nested colorscheme sierra
-  let g:lightline = { 'colorscheme': 'sierra' }
+  " let g:lightline = { 'colorscheme': 'sierra' }
 '''
 
 
