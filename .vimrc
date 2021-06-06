@@ -76,7 +76,8 @@ nnoremap <Space>d :Kwbd<CR>
 "
 "==================================================================================
 set list
-set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
+" set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
+set listchars=tab:>.,trail:_,extends:>,precedes:<,nbsp:%
 
 
 "==================================================================================
