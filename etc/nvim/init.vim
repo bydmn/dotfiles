@@ -29,7 +29,6 @@ set hidden
 set splitbelow
 set wildmenu
 set wildmode=full
-colorscheme slate
 
 
 "==================================================================================
@@ -39,6 +38,7 @@ colorscheme slate
 "==================================================================================
 nnoremap j gj
 nnoremap k gk
+let mapleader = "\<SPACE>"
 
 
 "==================================================================================
@@ -73,101 +73,90 @@ set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
 
 "==================================================================================
 "
-"  全角スペースをハイライト
+"  plugin settings
 "
 "==================================================================================
-function! HighlightMultiByteSpace()
-  highlight HighlightMultiByteSpace cterm=reverse ctermfg=DarkMagenta gui=reverse guifg=DarkMagenta
+"vim-plug settings
+let s:data_home = empty($XDG_DATA_HOME) ? expand($HOME.'/.local/share') : $XDG_DATA_HOME
+let s:plug_file = expand(s:data_home) . '/nvim/site/autoload/plug.vim'
+if empty(s:plug_file)
+  csilent execute 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source '~/.config/nvim/init.vim'
+endif
+
+let s:plugged_dir = expand(stdpath('data').'/plugged')
+
+call plug#begin(s:plugged_dir)
+" Make sure you use single quotes
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+" Plug 'junegunn/vim-easy-align'
+
+" Any valid git URL is allowed
+" Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+
+" Multiple Plug commands can be written in a single line using | separators
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+" On-demand loading
+" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+" Using a non-default branch
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+" Plug 'fatih/vim-go', { 'tag': '*' }
+
+" Plugin options
+" Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+
+" Plugin outside ~/.vim/plugged with post-update hook
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" Unmanaged plugin (manually installed and updated)
+" Plug '~/my-prototype-plugin'
+
+" function! BuildYCM(info)
+"   " info is a dictionary with 3 fields
+"   " - name:   name of the plugin
+"   " - status: 'installed', 'updated', or 'unchanged'
+"   " - force:  set on PlugInstall! or PlugUpdate!
+"   if a:info.status == 'installed' || a:info.force
+"     !./install.py
+"   endif
+" endfunction
+
+Plug 'tmhedberg/matchit' " カッコ同士のジャンプ機能にhtmlタグなどへの対応
+Plug 'AndrewRadev/splitjoin.vim' " コードの{}カッコなどの開閉
+Plug 'djoshea/vim-autoread' " バッファの変更の自動更新
+Plug 'tpope/vim-surround'
+Plug 'itchyny/lightline.vim'
+Plug 'cespare/vim-toml', { 'for': 'toml' }
+Plug 'chase/vim-ansible-yaml', { 'for': 'yaml' }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'neoclide/coc-json', { 'do': 'yarn install --frozen-lockfile', 'for': 'json' }
+Plug 'neoclide/coc-tsserver', { 'do': 'yarn install --frozen-lockfile', 'for': ['typescript', 'typescriptreact'] }
+Plug 'neoclide/coc-eslint', { 'do': 'yarn install --frozen-lockfile', 'for': ['javascript', 'javascriptreact', 'typescript', 'typescriptreact'] }
+Plug 'neoclide/coc-prettier', { 'do': 'yarn install --frozen-lockfile', 'for': ['javascript', 'javascriptreact', 'typescript', 'typescriptreact'] }
+Plug 'neoclide/coc-rls', {'for': 'rust'}
+Plug 'neoclide/coc-tabnine', { 'do': 'yarn install --frozen-lockfile' }
+Plug 'antoinemadec/FixCursorHold.nvim' " depends on fern
+Plug 'lambdalisue/fern.vim' " filer
+Plug 'nvim-treesitter/nvim-treesitter' " colorscheme
+Plug 'sainnhe/gruvbox-material' " colorscheme
+Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'} " fuzzy finder
+
+" Initialize plugin system
+call plug#end()
+
+let s:plugs = get(s:, 'plugs', get(g:, 'plugs', {}))
+function! FindPlugin(name) abort
+  return has_key(s:plugs, a:name) ? isdirectory(s:plugs[a:name].dir) : 0
 endfunction
+command! -nargs=1 UsePlugin if !FindPlugin(<args>) | finish | endif
 
-if has('syntax')
-  augroup HighlightMultiByteSpace
-    autocmd!
-    autocmd ColorScheme       * call HighlightMultiByteSpace()
-    autocmd VimEnter,WinEnter * match HighlightMultiByteSpace /　/
-  augroup END
-  call HighlightMultiByteSpace()
-endif
-
-
-if &term =~ "xterm"
-  let &t_ti .= "\e[?2004h"
-  let &t_te .= "\e[?2004l"
-  let &pastetoggle = "\e[201~"
-
-  function! XTermPasteBegin(ret)
-    set paste
-    return a:ret
-  endfunction
-
-  noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
-  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-  cnoremap <special> <Esc>[200~ <nop>
-  cnoremap <special> <Esc>[201~ <nop>
-endif
-
-
-"==================================================================================
-"
-"  dein settings
-"
-"==================================================================================
-if !&compatible
-  set nocompatible
-endif
-
-" reset augroup
-augroup MyAutoCmd
-  autocmd!
-augroup END
-
-" dein自体の自動インストール
-let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
-let s:dein_dir = s:cache_home . '/dein'
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-if !isdirectory(s:dein_repo_dir)
-  call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
-endif
-let &runtimepath = s:dein_repo_dir .",". &runtimepath
-" プラグイン読み込み＆キャッシュ作成
-let s:toml_dir = expand($HOME.'/dotfiles/etc')
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-  call dein#load_toml(s:toml_dir.'/dein.toml', {'lazy': 0})
-  call dein#load_toml(s:toml_dir.'/dein_lazy.toml', {'lazy': 1})
-  call dein#end()
-  call dein#save_state()
-endif
-" 不足プラグインの自動インストール
-if has('vim_starting') && dein#check_install()
-  call dein#install()
-endif
-
-syntax on
-filetype plugin indent on
-
-
-"==================================================================================
-"
-"  netrw.vim settings
-"
-"==================================================================================
-let g:netrw_liststyle = 3
-let g:netrw_altv      = 1
-let g:netrw_alto      = 1
-let g:netrw_list_hide = '.DS_Store,\(^\|\s\s\)\zs\.\S\+'
-
-
-"==================================================================================
-"
-"  VimDiff settings
-"
-"==================================================================================
-set diffopt=filler,iwhite,vertical
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
+runtime! _config/*.vim
 
 
 "==================================================================================
@@ -178,5 +167,4 @@ highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 syntax on
 filetype plugin indent on
 set expandtab
-
 

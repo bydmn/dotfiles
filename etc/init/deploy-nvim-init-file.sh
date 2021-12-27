@@ -1,12 +1,15 @@
-
-SRC_FILE=$HOME/dotfiles/etc/nvim/init.vim
-
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+SRC_NEOVIM_DIR=$SCRIPT_DIR/../nvim
+SRC_NEOVIM_INIT_FILE=$SRC_NEOVIM_DIR/init.vim
+SRC_NEOVIM_CONFIG_DIR=$SRC_NEOVIM_DIR/_config
 if [ -n "$XDG_CONFIG_HOME" ]; then
-  mkdir -p $XDG_CONFIG_HOME/nvim
-  TARGET_FILE=$XDG_CONFIG_HOME/nvim/init.vim
+  DIST_NEOVIM_DIR=$XDG_CONFIG_HOME/nvim
 else
-  mkdir -p $HOME/.config/nvim
-  TARGET_FILE=$HOME/.config/nvim/init.vim
+  DIST_NEOVIM_DIR=$HOME/.config/nvim
 fi
+DIST_NEOVIM_INIT_FILE=$DIST_NEOVIM_DIR/init.vim
+DIST_NEOVIM_CONFIG_DIR=$DIST_NEOVIM_DIR/_config
 
-cp $SRC_FILE $TARGET_FILE
+mkdir -p $DIST_NEOVIM_DIR
+ln -s $SRC_NEOVIM_INIT_FILE $DIST_NEOVIM_INIT_FILE
+ln -s $SRC_NEOVIM_CONFIG_DIR $DIST_NEOVIM_CONFIG_DIR
