@@ -1,4 +1,4 @@
-UsePlug 'junegunn/fzf'
+UsePlugin 'fzf'
 
 let $BAT_THEME                     = 'gruvbox-dark'
 let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'gruvbox-dark'

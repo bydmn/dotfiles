@@ -1,3 +1,3 @@
-UsePlugin 'sainnhe/gruvbox-material'
+UsePlugin 'gruvbox-material'
 
 colorscheme gruvbox-material
