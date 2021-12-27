@@ -146,6 +146,7 @@ Plug 'lambdalisue/fern.vim' " filer
 Plug 'nvim-treesitter/nvim-treesitter' " colorscheme
 Plug 'sainnhe/gruvbox-material' " colorscheme
 Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'} " fuzzy finder
+Plug 'AlessandroYorba/Sierra'
 
 " Initialize plugin system
 call plug#end()
