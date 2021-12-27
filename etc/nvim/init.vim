@@ -130,10 +130,11 @@ if !isdirectory(s:dein_repo_dir)
 endif
 let &runtimepath = s:dein_repo_dir .",". &runtimepath
 " プラグイン読み込み＆キャッシュ作成
-let s:toml_file = $HOME.'/dotfiles/etc/dein.toml'
+let s:toml_dir = expand($HOME.'/dotfiles/etc')
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
-  call dein#load_toml(s:toml_file)
+  call dein#load_toml(s:toml_dir.'/dein.toml', {'lazy': 0})
+  call dein#load_toml(s:toml_dir.'/dein_lazy.toml', {'lazy': 1})
   call dein#end()
   call dein#save_state()
 endif
