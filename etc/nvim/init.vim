@@ -38,7 +38,15 @@ set wildmode=full
 "==================================================================================
 nnoremap j gj
 nnoremap k gk
-let mapleader = "\<SPACE>"
+let g:mapleader = "\<SPACE>"
+
+
+"==================================================================================
+"
+"  terminal settings
+"
+"==================================================================================
+autocmd TermOpen * startinsert
 
 
 "==================================================================================
@@ -145,8 +153,10 @@ Plug 'antoinemadec/FixCursorHold.nvim' " depends on fern
 Plug 'lambdalisue/fern.vim' " filer
 Plug 'nvim-treesitter/nvim-treesitter' " colorscheme
 Plug 'sainnhe/gruvbox-material' " colorscheme
-Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'} " fuzzy finder
 Plug 'AlessandroYorba/Sierra'
+Plug 'akinsho/toggleterm.nvim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Initialize plugin system
 call plug#end()
