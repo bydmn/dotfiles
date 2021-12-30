@@ -157,6 +157,7 @@ Plug 'AlessandroYorba/Sierra'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'lambdalisue/gina.vim'
 
 " Initialize plugin system
 call plug#end()

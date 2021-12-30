@@ -6,4 +6,6 @@ let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffse
 
 nnoremap <silent> <C-f>f :Files<CR>
 nnoremap <silent> <C-f>g :Ag<CR>
+nnoremap <silent> <C-f>c :Colors<CR>
+nnoremap <silent> <C-f>r :GFiles<CR>
 
