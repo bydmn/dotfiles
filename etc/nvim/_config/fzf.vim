@@ -8,4 +8,5 @@ nnoremap <silent> <C-f>f :Files<CR>
 nnoremap <silent> <C-f>g :Ag<CR>
 nnoremap <silent> <C-f>c :Colors<CR>
 nnoremap <silent> <C-f>r :GFiles<CR>
+nnoremap <silent> <C-f>b :Buffers<CR>
 
